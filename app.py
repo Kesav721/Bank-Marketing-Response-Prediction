@@ -9,11 +9,11 @@ Original file is located at
 
 import streamlit as st
 import numpy as np
-import pickle
+import joblib
 
 @st.cache_resource
 def load_model():
-    return pickle.load(open("model.pkl", "rb"))
+    return joblib.load("model.pkl")
 
 try:
     model = load_model()
@@ -27,7 +27,6 @@ st.write("Predict if a customer will subscribe to a term deposit.")
 
 st.markdown("---")
 
-#INPUT
 col1, col2 = st.columns(2)
 
 with col1:
@@ -64,8 +63,6 @@ month = st.selectbox(
     ["jan", "feb", "mar", "apr", "may", "jun",
      "jul", "aug", "sep", "oct", "nov", "dec"]
 )
-
-#Preprocessing
 
 def preprocess_input():
     binary_map = {"yes": 1, "no": 0}
@@ -126,8 +123,8 @@ if st.button("🔮 Predict"):
         st.error("Prediction failed.")
         st.write(e)
         st.info(
-            "If you see a feature mismatch error, ensure the model was trained "
-            "with exactly 15 input features in the same order."
+            "Ensure the model was trained using exactly 15 features "
+            "in the same order as used here."
         )
 
 
